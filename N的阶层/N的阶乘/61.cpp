@@ -37,6 +37,7 @@ struct bigInteger{              // 大数结构
     };
     bigInteger operator * (int x) const{
         bigInteger res={0};
+        bool ifCarry=false; // 是否进位
         int carry=0;        // 进位
         int index=0;        // 在第几位进位
         res.size =size;
@@ -44,11 +45,12 @@ struct bigInteger{              // 大数结构
             res.digit[i]=x*digit[i]+carry;
             if(res.digit[i]>9999){
                 index=i;
+                ifCarry=true;
             }
             carry=res.digit[i]/10000;
             res.digit[i]=res.digit[i]%10000;
         }
-        if(carry!=0 && index==res.size-1){      // 有进位且进位后大于原来位数
+        if(ifCarry && index==res.size-1){      // 有进位且进位后大于原来位数
             res.digit[res.size]=carry;
             res.size++;
         }
