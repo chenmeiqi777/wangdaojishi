@@ -1,8 +1,8 @@
 //
-//  60.cpp
-//  a+b
+//  61.cpp
+//  N的阶层
 //
-//  Created by chenmeiqi on 2019/3/29.
+//  Created by chenmeiqi on 2019/3/31.
 //  Copyright © 2019年 chenmeiqi. All rights reserved.
 //
 
@@ -13,8 +13,7 @@ unsigned long max_len;
 struct bigInteger{              // 大数结构
     int digit[1000];
     int size;
-    
-    void out(unsigned long max_len){
+    string  out(){
         unsigned long temp;
         string res="";
         string s;
@@ -34,15 +33,15 @@ struct bigInteger{              // 大数结构
             }
             res+=s;                 // 结果字符串拼接
         }
-        cout<<res<<endl;
+        return res;
     };
-    bigInteger operator + (const bigInteger & B) const{
+    bigInteger operator * (int x) const{
         bigInteger res={0};
         int carry=0;        // 进位
         int index=0;        // 在第几位进位
-        res.size =max(size, B.size);
-        for (int i=0; i<res.size; i++) {        // 逐个相加
-            res.digit[i]=B.digit[i]+digit[i]+carry;
+        res.size =size;
+        for (int i=0; i<res.size; i++) {        // 逐个相乘
+            res.digit[i]=x*digit[i]+carry;
             if(res.digit[i]>9999){
                 index=i;
             }
@@ -50,11 +49,8 @@ struct bigInteger{              // 大数结构
             res.digit[i]=res.digit[i]%10000;
         }
         if(carry!=0 && index==res.size-1){      // 有进位且进位后大于原来位数
-            res.digit[res.size]=1;
+            res.digit[res.size]=carry;
             res.size++;
-        }
-        if(carry!=0 && index==res.size-2){         // 有进位但位数不变
-            max_len++;
         }
         return res;
     };
@@ -84,15 +80,17 @@ bigInteger stringToBigInt(string s){
 }
 
 int main(int argc, const char * argv[]) {
-    string a,b;
+    int n;
+    string str_n;
     bigInteger A;
-    bigInteger B;
-    while (cin>>a>>b) {
-        max_len=max(a.length(),b.length());
-        A=stringToBigInt(a);
-        B=stringToBigInt(b);
-        A=A+B;
-        A.out(max_len);
+    while (cin>>n) {
+        str_n=to_string(n);
+        A=stringToBigInt(str_n);            // 构造高精度整数
+        for (int i=n-1; i>0; i--) {         // 阶乘
+            A=A*i;
+            max_len=A.out().length();       // 得到 A 的长度
+        }
+        cout<<A.out()<<endl;
     }
     return 0;
 }
