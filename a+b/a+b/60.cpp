@@ -14,7 +14,7 @@ struct bigInteger{              // 大数结构
     int digit[1000];
     int size;
     
-    void out(unsigned long max_len){
+    string out(){               // 打印
         unsigned long temp;
         string res="";
         string s;
@@ -32,9 +32,9 @@ struct bigInteger{              // 大数结构
                     }
                 }
             }
-            res+=s;                 // 结果字符串拼接
+            res+=s;          // 结果字符串拼接
         }
-        cout<<res<<endl;
+        return res;
     };
     bigInteger operator + (const bigInteger & B) const{
         bigInteger res={0};
@@ -94,7 +94,7 @@ int main(int argc, const char * argv[]) {
         A=stringToBigInt(a);
         B=stringToBigInt(b);
         A=A+B;
-        A.out(max_len);
+        cout<<A.out()<<endl;
     }
     return 0;
 }
