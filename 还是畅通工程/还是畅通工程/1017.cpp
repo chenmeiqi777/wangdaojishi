@@ -13,14 +13,14 @@ using namespace std;
 int Tree[100];
 struct Edge
 {
-    int begin;
-    int end;
-    int weight;
-    bool operator < (const Edge& a) const{
+    int begin;      // 起始顶点
+    int end;        // 终点
+    int weight;     // 该边权值
+    bool operator < (const Edge& a) const{      // 重载 < 运算符
         return weight<a.weight;
     };
 };
-int findRoot(int x){
+int findRoot(int x){            // 找根结点
     int res=0;
     while(Tree[x]!=0){
         x=Tree[x];
@@ -32,7 +32,7 @@ int main(int argc, const char * argv[]) {
     int n,a,b,temp;
     while(cin>>n){
         for (int i=0; i<100; i++) {
-            Tree[i]=0;
+            Tree[i]=0;                  // 初始化
         }
         if(n==0){
             break;
@@ -45,7 +45,7 @@ int main(int argc, const char * argv[]) {
             cin>>e.begin>>e.end>>e.weight;
             edges.push_back(e);
         }
-        sort(edges.begin(),edges.end());
+        sort(edges.begin(),edges.end());            // 排序，以从权值小的边开始遍历
         int count=edges.size();
         for(int i=0;i<count;i++)
         {
@@ -54,12 +54,12 @@ int main(int argc, const char * argv[]) {
             temp=edges[i].begin;
             if(a!=b){
                 Tree[a]=b;
-                while(Tree[temp]!=0){
+                while(Tree[temp]!=0){               // 路径压缩优化
                     int t=Tree[temp];
                     Tree[temp]=b;
                     temp=t;
                 }
-                res+=edges[i].weight;
+                res+=edges[i].weight;               // 累加该边权值
             }
         }
         cout<<res<<endl;
